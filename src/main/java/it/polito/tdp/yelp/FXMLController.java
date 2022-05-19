@@ -5,7 +5,10 @@
 package it.polito.tdp.yelp;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.yelp.model.Business;
 import it.polito.tdp.yelp.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,31 +40,55 @@ public class FXMLController {
     private TextField txtX2; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbCitta"
-    private ComboBox<?> cmbCitta; // Value injected by FXMLLoader
+    private ComboBox<String> cmbCitta; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbB1"
-    private ComboBox<?> cmbB1; // Value injected by FXMLLoader
+    private ComboBox<Business> cmbB1; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbB2"
-    private ComboBox<?> cmbB2; // Value injected by FXMLLoader
+    private ComboBox<Business> cmbB2; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
     
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	cmbB1.getItems().clear();
+    	cmbB2.getItems().clear();
     	
+    	String city = cmbCitta.getValue();
+    	//Controlli
+    	
+    	List<Business> business = this.model.creaGrafo(city);
+    	txtResult.setText("Grafo creato con "+this.model.getGraph().vertexSet().size()+" vertici e "+this.model.getGraph().edgeSet().size()+" archi.");
+    	
+    	cmbB1.getItems().addAll(business);
+    	cmbB2.getItems().addAll(business);
     }
 
     @FXML
     void doCalcolaLocaleDistante(ActionEvent event) {
-
+    	Business business = cmbB1.getValue();
+    	//Controlli
     	
+    	double distanza = this.model.trovaLocaleDistante(business);
+    	txtResult.setText("Distanza da "+business+" a "+this.model.getB1()+" = "+distanza+" km.");
     }
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
-
+    	txtResult.setText("");
+    	Business end = cmbB2.getValue();
+    	double x = Double.parseDouble(txtX2.getText());
+    	//Controlli
+    	
+    	List<Business> res = this.model.calcolaPercorso(cmbB1.getValue(), end, x);
+    	
+    	for(Business b: res) {
+    		txtResult.appendText(b+"\n");
+    	}
+    	
+    	txtResult.appendText("Km percorsi = "+this.model.getKm());
     }
 
 
@@ -80,5 +107,8 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	
+    	List<String> cities = this.model.getAllCities();
+    	cmbCitta.getItems().addAll(cities);
     }
 }

@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="524.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.yelp.FXMLController">
+<BorderPane prefHeight="524.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.yelp.FXMLController">
    <top>
       <Label text="Esame 10/09/2021 Yelp" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" />
          </BorderPane.margin>
          <font>
-            <Font size="20.0" />
+            <Font name="Times New Roman Bold" size="26.0" />
          </font>
       </Label>
    </top>
